@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>JSQL - JavaScript Query Language -N.T.H</title>
+
+</head>
+<body>
+<% include menu.ejs %>
+<center>
+    <p style="color: red">
+        <%= (notifi) ? notifi : "" %>
+    </p>
+</center>
+<% if(sess == null){ %>
+<center>
+    <div style="width: 30%">
+        <p>Login</p>
+        <form action="/Users/Login" method="post" id="login" onsubmit="return login()">
+            <input type="text" name="username" id="username" placeholder="Username"><br><br>
+            <input type="password" name="password1" id="password1" placeholder="Password 1"><br><br>
+            <input type="password" name="password2" id="password2" placeholder="Password 2"><br><br>
+            <input type="submit" value="Login">
+            <p style="color:red;"><%= re %></p>
+        </form>
+    </div>
+    <div style="width: 30%">
+        <p>Register</p>
+        <div></div>
+        <form action="/Users/Register" method="post" id="register" onsubmit="return reg()">
+            <input type="text" name="user" id="user" placeholder="Username"><br><br>
+            <input type="password" name="pass1" id="pass1" placeholder="Password 1"><br><br>
+            <input type="password" name="pass2" id="pass2" placeholder="Password 2"><br><br>
+            <input type="text" name="email" id="email" placeholder="Email"><br><br>
+            <input type="submit" value="Register">
+        </form>
+    </div>
+</center>
+<% }else{ %>
+<center>
+
+    <% if(re.length > 0){%>
+    <p>This is list table of you. You can manage them with sql query or js query</p>
+    <%re.forEach(function (t) { %>
+    <a href="/DB/Manage?tb=<%= t %>"><%= t %></a> |
+    <% })}else{ %>
+    <p>No table</p>
+    <%}%>
+    <form action="/DB/CreateTB" method="post">
+        <textarea id="" name="excute" cols="80" rows="15" placeholder="Statement"></textarea><br>
+        <input type="submit" value="New table">
+    </form>
+    <% } %>
+</center>
+<br><br>
+
+<% include footer.ejs %>
+</body>
+<script>
+
+    function validateEmail(sEmail) {
+        var filter = /^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
+        if (filter.test(sEmail)) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+
+    function kt(str) {
+        if (!/^[a-zA-Z0-9- ]*$/.test(str)) {
+            return false;
+        }
+        return true;
+    }
+
+    var login = function () {
+        var username = document.getElementById('username').value;
+        var password1 = document.getElementById('password1').value;
+        var password2 = document.getElementById('password2').value;
+        if (!kt(username) || !kt(password1) || !kt(password2) || username.length === 0 || password1.length === 0 || password2.length === 0 || username.length > 10 || password1.length > 10 || password2.length > 10) {
+            alert('Fields must not be empty, no larger than 9 characters and no special characters');
+            return false;
+        }
+        return true;
+    };
+
+    var reg = function () {
+        var username = document.getElementById('user').value;
+        var password1 = document.getElementById('pass1').value;
+        var password2 = document.getElementById('pass2').value;
+        var email = document.getElementById('email').value;
+        if (!validateEmail(email) || !kt(username) || !kt(password1) || !kt(password2) || username.length === 0 || password1.length === 0 || password2.length === 0 || username.length > 10 || password1.length > 10 || password2.length > 10) {
+            alert('Fields must not be empty, no larger than 9 characters and no special characters and email must be fine');
+            return false;
+        }
+        return true;
+    };
+</script>
+</html>

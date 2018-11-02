@@ -1,0 +1,15 @@
+<center>
+    <a href="/Home/Index">Return index</a>
+    <br><br>
+    <% if(sess != null){ %>
+    <a href="/Home/Logout">Logout</a>
+    <br><br>
+    <%if(sess.info === 'yes'){%>
+        <a href="/Home/Lock">Lock my account </a>(see the effect in documentation)
+    <%}else{%>
+        <a href="/Home/UnLock">Unlock my account </a>(see the effect in documentation)
+    <%}%>
+    <% } %>
+    <br>
+    <p>Contact us: 15130052@st.hcmuaf.edu.vn</p>
+</center>

@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <style>
+        td {
+            border: 1px solid green;
+            padding: 5px 5px 5px 5px;
+        }
+    </style>
+    <title>Admin</title>
+</head>
+<body>
+<%include menu.ejs%>
+<center>
+    <% if(inforTable != null){
+    %>
+    <table>
+        <thead>
+        <tr>
+            <% inforTable.listCol.forEach(function (t) { %>
+            <th><%= t.columname %></th>
+            <% }); %>
+            <th>Delete</th>
+            <th>Change</th>
+        </tr>
+        </thead>
+        <tbody>
+        <% if(re != null && re.length > 0 ){ %>
+        <% re.forEach(function (t) { %>
+        <tr>
+            <% var x = JSON.stringify(t);
+                x = x.substr(0, x.length - 1);
+                var x1 = x.split(',');
+
+            x1.forEach(function (t2) {
+                var xuLyT2 = t2.split(':')[1];
+            %>
+            <td><%= xuLyT2 %></td>
+            <% }) %>
+            <td>
+                <button>X</button>
+            </td>
+            <td>
+                <button><></button>
+            </td>
+        </tr>
+        <% }) %>
+        </tbody>
+    </table>
+    <% }} %>
+    <br><br><br>
+    <form action="/DB/ExcuteTable" method="post">
+        <textarea type="text" placeholder="Statement" cols="80" rows="15" name="statement"></textarea><br>
+        <input type="submit" value="Excute Query">
+    </form>
+</center>
+<%include footer.ejs%>
+</body>
+
+</html>
